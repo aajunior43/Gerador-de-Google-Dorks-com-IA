@@ -3,7 +3,6 @@ import { Header } from './components/Header';
 import { QueryInput } from './components/QueryInput';
 import { ResultDisplay } from './components/ResultDisplay';
 import { generateDorkQuery } from './services/geminiService';
-import { LoadingSpinner, AlertTriangle } from './components/Icons';
 import { GroupFinder } from './components/GroupFinder';
 
 const App: React.FC = () => {
@@ -34,46 +33,38 @@ const App: React.FC = () => {
   }, [userInput]);
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-200 font-sans antialiased">
-      <div className="container mx-auto px-4 py-8">
-        <Header />
+    <div>
+      <Header />
 
-        <main className="mt-8 max-w-3xl mx-auto space-y-8">
-          <QueryInput
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            onSubmit={handleGenerateDork}
-            isLoading={isLoading}
-          />
-          
-          {isLoading && (
-            <div className="flex justify-center items-center p-6 bg-slate-800 rounded-lg">
-              <LoadingSpinner className="w-8 h-8 text-cyan-400" />
-              <p className="ml-4 text-lg">Gerando dork com IA...</p>
-            </div>
-          )}
+      <main>
+        <QueryInput
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onSubmit={handleGenerateDork}
+          isLoading={isLoading}
+        />
+        
+        {isLoading && (
+          <p>Gerando dork com IA...</p>
+        )}
 
-          {error && (
-            <div className="flex items-center p-4 bg-red-900/50 border border-red-700 text-red-300 rounded-lg">
-              <AlertTriangle className="w-6 h-6 mr-3" />
-              <span>{error}</span>
-            </div>
-          )}
+        {error && (
+          <p style={{ color: 'red' }}>{error}</p>
+        )}
 
-          {generatedDork && !isLoading && (
-            <ResultDisplay dork={generatedDork} />
-          )}
+        {generatedDork && !isLoading && (
+          <ResultDisplay dork={generatedDork} />
+        )}
 
-          <hr className="border-slate-700" />
+        <hr />
 
-          <GroupFinder />
+        <GroupFinder />
 
-        </main>
+      </main>
 
-        <footer className="text-center text-slate-500 mt-12">
-          <p>Powered by Google Gemini</p>
-        </footer>
-      </div>
+      <footer style={{ textAlign: 'center', marginTop: '2rem', paddingTop: '1rem', borderTop: '1px solid #ccc' }}>
+        <p>Desenvolvido por Aleksandro Alves</p>
+      </footer>
     </div>
   );
 };
